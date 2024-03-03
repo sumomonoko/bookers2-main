@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <h2>Book detail</h2>
+    <table>
+      <% @books.each do |book| %>
+      <tr>
+        <td>
+          <%= image_tag book.get_image %>
+          <p><%= image_tag 'sample-author1.jpg' %></p>
+          <p><%= book.user.name %></p>
+        </td>
+        <td>Title：<%= book.title %></td>
+        <td>Opinion：<%= book.body %></td>
+        <% if @book.user == current_user %>
+          <td><%= link_to "Edit", edit_book_path(book.id), class: 'btn btn-sm btn-success edit_book_123539' %></td>
+          <td><%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "本当に消しますか？", class: 'btn btn-sm btn-danger destroy_book_123539' %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<h3>New book</h3>
+  <% if @book.errors.any? %>
+    <%= @book.errors.count %> errors prohibited this book from being saved:
+    <ul>
+      <% @book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+<%= form_with model: @book do |f| %>
+  <p>Title</p>
+  <%= f.text_field :title %>
+
+  <p>Opinion</p>
+  <%= f.text_area :body %>
+
+  <p><%= f.submit 'Create Book', class: 'btn btn-success' %></p>
+<% end %>
